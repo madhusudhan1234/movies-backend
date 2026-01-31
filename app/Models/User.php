@@ -46,9 +46,4 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
-
-    public function getEmailForPassword(): string
-    {
-        return 'madhusudhansubedi4@gmail.com';
-    }
 }
