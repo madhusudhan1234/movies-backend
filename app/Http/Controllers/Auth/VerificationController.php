@@ -1,17 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Services\UserService;
+use App\Services\UserServiceInterface;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
+    public function __construct(
+        protected UserServiceInterface $userService
+    ) {}
+
     public function verify(Request $request): JsonResponse
     {
-        $user = User::findOrFail($request->route('id'));
+        $user = $this->userService->findById((int) $request->route('id'));
 
         if (! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
             return response()->json(['message' => 'Invalid verification link.'], 403);

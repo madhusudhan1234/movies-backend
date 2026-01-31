@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ResetLinkRequest;
+use App\Http\Requests\Auth\ResetRequest;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class ForgotPasswordController extends Controller
 {
-    public function sendResetLink(Request $request): JsonResponse
+    public function sendResetLink(ResetLinkRequest $request): JsonResponse
     {
-        $request->validate(['email' => 'required|email']);
-
         $status = Password::sendResetLink($request->only('email'));
 
         if ($status === Password::RESET_LINK_SENT) {
@@ -24,14 +24,8 @@ class ForgotPasswordController extends Controller
         return response()->json(['message' => __($status)], 400);
     }
 
-    public function reset(Request $request): JsonResponse
+    public function reset(ResetRequest $request): JsonResponse
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
-        ]);
-
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
