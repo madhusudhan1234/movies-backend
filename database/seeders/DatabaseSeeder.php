@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,11 +16,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Seed users
+        User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Test UserResource',
             'email' => 'test@example.com',
         ]);
+
+        User::factory()->create([
+            'name' => 'Admin UserResource',
+            'email' => 'admin@example.com',
+            'role' => 1,
+        ]);
+
+        // Seed movies
+        Movie::factory(50)->create();
     }
 }
