@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\MovieService;
+use App\Services\MovieServiceInterface;
 use App\Services\UserService;
 use App\Services\UserServiceInterface;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -15,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(MovieServiceInterface::class, MovieService::class);
     }
 
     /**

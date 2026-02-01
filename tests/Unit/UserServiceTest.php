@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use App\Models\User;
@@ -8,6 +10,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UserServiceTest extends TestCase
@@ -19,13 +22,11 @@ class UserServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->userService = new UserService();
+        $this->userService = app(UserService::class);
     }
 
-    /**
-     * Test saving a new user successfully.
-     */
-    public function test_save_creates_user_with_correct_data(): void
+    #[Test]
+    public function it_save_creates_user_with_correct_data(): void
     {
         Event::fake();
 
@@ -74,7 +75,7 @@ class UserServiceTest extends TestCase
         Event::fake();
 
         $userData = [
-            'name' => 'Event Test User',
+            'name' => 'Event Test UserResource',
             'email' => 'event@example.com',
             'password' => 'password123',
         ];
@@ -166,7 +167,7 @@ class UserServiceTest extends TestCase
         $users = [];
         for ($i = 1; $i <= 3; $i++) {
             $userData = [
-                'name' => "User {$i}",
+                'name' => "UserResource {$i}",
                 'email' => "user{$i}@example.com",
                 'password' => "password{$i}",
             ];
