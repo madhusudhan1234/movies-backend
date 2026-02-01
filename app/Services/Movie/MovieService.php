@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\Movie;
 
 use App\Models\Movie;
 use Illuminate\Pagination\LengthAwarePaginator;

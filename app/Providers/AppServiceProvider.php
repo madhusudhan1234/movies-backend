@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Services\MovieService;
-use App\Services\MovieServiceInterface;
-use App\Services\UserService;
-use App\Services\UserServiceInterface;
+use App\Services\Movie\MovieService;
+use App\Services\Movie\MovieServiceInterface;
+use App\Services\User\UserService;
+use App\Services\User\UserServiceInterface;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 

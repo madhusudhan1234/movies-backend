@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Models\User;
-use App\Services\UserService;
+use App\Services\User\UserService;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
@@ -48,10 +49,8 @@ class UserServiceTest extends TestCase
         ]);
     }
 
-    /**
-     * Test that password is hashed when saving user.
-     */
-    public function test_save_hashes_password(): void
+    #[Test]
+    public function save_hashes_password(): void
     {
         Event::fake();
 
@@ -67,10 +66,8 @@ class UserServiceTest extends TestCase
         $this->assertTrue(Hash::check('securepassword', $user->password));
     }
 
-    /**
-     * Test that Registered event is dispatched after saving user.
-     */
-    public function test_save_dispatches_registered_event(): void
+    #[Test]
+    public function save_dispatches_registered_event(): void
     {
         Event::fake();
 
@@ -87,10 +84,8 @@ class UserServiceTest extends TestCase
         });
     }
 
-    /**
-     * Test finding user by email.
-     */
-    public function test_find_by_email_returns_user(): void
+    #[Test]
+    public function find_by_email_returns_user(): void
     {
         $user = User::factory()->create([
             'email' => 'findme@example.com',
@@ -103,20 +98,16 @@ class UserServiceTest extends TestCase
         $this->assertEquals('findme@example.com', $foundUser->email);
     }
 
-    /**
-     * Test finding user by email returns null when not found.
-     */
-    public function test_find_by_email_returns_null_when_not_found(): void
+    #[Test]
+    public function find_by_email_returns_null_when_not_found(): void
     {
         $foundUser = $this->userService->findByEmail('nonexistent@example.com');
 
         $this->assertNull($foundUser);
     }
 
-    /**
-     * Test finding user by ID.
-     */
-    public function test_find_by_id_returns_user(): void
+    #[Test]
+    public function find_by_id_returns_user(): void
     {
         $user = User::factory()->create();
 
@@ -126,20 +117,16 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user->id, $foundUser->id);
     }
 
-    /**
-     * Test finding user by ID throws exception when not found.
-     */
-    public function test_find_by_id_throws_exception_when_not_found(): void
+    #[Test]
+    public function find_by_id_throws_exception_when_not_found(): void
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
 
         $this->userService->findById(99999);
     }
 
-    /**
-     * Test save method uses database transaction.
-     */
-    public function test_save_uses_database_transaction(): void
+    #[Test]
+    public function save_uses_database_transaction(): void
     {
         Event::fake();
 
@@ -157,10 +144,8 @@ class UserServiceTest extends TestCase
         ]);
     }
 
-    /**
-     * Test saving multiple users with different data.
-     */
-    public function test_save_multiple_users(): void
+    #[Test]
+    public function save_multiple_users(): void
     {
         Event::fake();
 

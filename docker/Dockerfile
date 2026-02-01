@@ -23,9 +23,12 @@ RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd
 
 # Install PHP Redis extension via pecl
 RUN apk add --no-cache autoconf g++ make \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
+    && pecl install redis xdebug \
+    && docker-php-ext-enable redis xdebug \
     && apk del autoconf g++ make
+
+# Configure Xdebug
+RUN echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\User;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -14,19 +14,16 @@ readonly class UserService implements UserServiceInterface
     public function __construct(private DatabaseManager $databaseManager, private User $user) {}
 
     /**
-     * @var array{id: string, name: string, age: int}
-     *
      * @throws \Throwable
      */
     public function save(array $data): User
     {
         return $this->databaseManager->transaction(function () use ($data) {
-            $user = new User; // Why user ko instance na leko hamle?
+            $user = new User;
             $user->name = $data['name'];
             $user->email = $data['email'];
-            $user->password = Hash::make($data['password']); // laravel before create hook => mutator
+            $user->password = Hash::make($data['password']);
             $user->save();
-            // UserResource::create
 
             event(new Registered($user));
 

@@ -18,11 +18,8 @@ class FavoritesController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        if (! $user) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], Response::HTTP_UNAUTHORIZED);
-        }
+        /** @var User $user */
+        $user = auth()->user();
 
         // Check if already favorited
         if ($user->favoriteMovies()->where('movie_id', $movie->id)->exists()) {
@@ -44,11 +41,8 @@ class FavoritesController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        if (! $user) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], Response::HTTP_UNAUTHORIZED);
-        }
+        /** @var User $user */
+        $user = auth()->user();
 
         $user->favoriteMovies()->detach($movie->id);
 

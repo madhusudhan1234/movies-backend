@@ -5,13 +5,15 @@ namespace Tests\Feature;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class FavoritesApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_add_movie_to_favorites(): void
+    #[Test]
+    public function user_can_add_movie_to_favorites(): void
     {
         $user = User::factory()->create();
         $movie = Movie::factory()->create();
@@ -37,7 +39,8 @@ class FavoritesApiTest extends TestCase
         $this->assertNotNull($pivot->updated_at);
     }
 
-    public function test_user_cannot_add_same_movie_twice(): void
+    #[Test]
+    public function user_cannot_add_same_movie_twice(): void
     {
         $user = User::factory()->create();
         $movie = Movie::factory()->create();
@@ -52,7 +55,8 @@ class FavoritesApiTest extends TestCase
             ]);
     }
 
-    public function test_user_can_remove_movie_from_favorites(): void
+    #[Test]
+    public function user_can_remove_movie_from_favorites(): void
     {
         $user = User::factory()->create();
         $movie = Movie::factory()->create();
@@ -72,12 +76,12 @@ class FavoritesApiTest extends TestCase
         ]);
     }
 
-    public function test_guest_cannot_add_favorites(): void
+    #[Test]
+    public function guest_cannot_access_favorites_routes(): void
     {
         $movie = Movie::factory()->create();
 
-        $response = $this->postJson("/api/movies/{$movie->id}/favorite");
-
-        $response->assertUnauthorized();
+        $this->postJson("/api/movies/{$movie->id}/favorite")->assertUnauthorized();
+        $this->deleteJson("/api/movies/{$movie->id}/favorite")->assertUnauthorized();
     }
 }
