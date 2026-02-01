@@ -8,22 +8,25 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 readonly class UserService implements UserServiceInterface
 {
     public function __construct(private DatabaseManager $databaseManager, private User $user) {}
 
     /**
-     * @throws \Throwable
+     * @param array{name: string, email: string, password: string} $data
+     * @return User
+     * @throws Throwable
      */
     public function save(array $data): User
     {
         return $this->databaseManager->transaction(function () use ($data) {
-            $user = new User;
-            $user->name = $data['name'];
-            $user->email = $data['email'];
-            $user->password = Hash::make($data['password']);
-            $user->save();
+            $user = $this->user->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
 
             event(new Registered($user));
 
