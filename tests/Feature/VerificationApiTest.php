@@ -22,23 +22,10 @@ class VerificationApiTest extends TestCase
         Event::fake();
         $user = User::factory()->unverified()->create();
 
-        // Construct the verification URL manually to match controller logic
-        // Route pattern likely: /api/email/verify/{id}/{hash}
-        // Controller checks: hash_equals($hash, sha1($user->getEmailForVerification()))
-        
         $hash = sha1($user->getEmailForVerification());
         $url = "/api/email/verify/{$user->id}/{$hash}";
 
-        // We need to actAs the user usually, or is it a public route? 
-        // Typically verify route is protected by `signed` middleware OR just public with hash check.
-        // Looking at the controller, it fetches user by ID from route, so it might be guest accessible if signature matches?
-        // But standard Laravel verify route often requires auth.
-        // Let's assume it requires Auth for now, or at least try without first if routes are unknown.
-        // However, standard is: User clicks link, *then* logs in (or is logged in) or the link works for guests if signed.
-        // But the controller gets user from service, meaning it doesn't rely on `auth()->user()`.
-        
-        // Let's try acting as the user to be safe and typical.
-        $this->actingAs($user); 
+        $this->actingAs($user);
 
         $response = $this->getJson($url);
 
@@ -60,7 +47,7 @@ class VerificationApiTest extends TestCase
 
         $response->assertForbidden()
             ->assertJson(['message' => 'Invalid verification link.']);
-        
+
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
     }
 
@@ -81,9 +68,6 @@ class VerificationApiTest extends TestCase
     #[Test]
     public function can_resend_verification_email(): void
     {
-        // Notification::fake(); // We might verify the notification is sent
-        // But simpler to just check response for now
-        
         $user = User::factory()->unverified()->create();
 
         $response = $this->actingAs($user)->postJson('/api/email/resend');

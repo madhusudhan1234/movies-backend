@@ -7,11 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * Movie Model
- *
- * Represents a movie in the database with all metadata and relationships.
- * Used across controllers, services, resources, and other application layers.
- *
  * @property-read int $id Movie ID (Primary Key)
  * @property string|null $imdb_id IMDB identifier (unique)
  * @property string $title Movie title (required)
@@ -38,16 +33,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string|null $website Official movie website URL
  * @property \Carbon\Carbon $created_at Timestamp when record was created
  * @property \Carbon\Carbon $updated_at Timestamp when record was last updated
- *
- * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Movie extends Model
 {
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
-     *
      * @var list<string>
      */
     protected $fillable = [
