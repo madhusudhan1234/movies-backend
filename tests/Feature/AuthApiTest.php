@@ -30,7 +30,7 @@ class AuthApiTest extends TestCase
                 'user' => ['id', 'name', 'email'],
                 'token',
             ]);
-        
+
         $this->assertDatabaseHas('users', ['email' => 'john@example.com']);
     }
 
@@ -48,7 +48,7 @@ class AuthApiTest extends TestCase
     {
         $user = User::factory()->create([
             'email' => 'jane@example.com',
-            'password' => 'password', 
+            'password' => 'password',
         ]);
 
         $response = $this->postJson('/api/login', [
@@ -87,12 +87,12 @@ class AuthApiTest extends TestCase
     {
         $user = User::factory()->create();
         $token = $user->createToken('test-token')->plainTextToken;
-        
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->postJson('/api/logout');
+
+        $response = $this->withHeader('Authorization', 'Bearer '.$token)->postJson('/api/logout');
 
         $response->assertOk()
             ->assertJson(['message' => 'Logged out successfully']);
-            
+
         $this->assertDatabaseMissing('personal_access_tokens', [
             'tokenable_id' => $user->id,
         ]);

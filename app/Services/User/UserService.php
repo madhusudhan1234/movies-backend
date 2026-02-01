@@ -15,8 +15,8 @@ readonly class UserService implements UserServiceInterface
     public function __construct(private DatabaseManager $databaseManager, private User $user) {}
 
     /**
-     * @param array{name: string, email: string, password: string} $data
-     * @return User
+     * @param  array{name: string, email: string, password: string}  $data
+     *
      * @throws Throwable
      */
     public function save(array $data): User

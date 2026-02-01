@@ -7,8 +7,7 @@ use App\Models\User;
 interface UserServiceInterface
 {
     /**
-     * @param array{name: string, email: string, password: string} $data
-     * @return User
+     * @param  array{name: string, email: string, password: string}  $data
      */
     public function save(array $data): User;
 

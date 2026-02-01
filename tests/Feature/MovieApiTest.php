@@ -28,7 +28,7 @@ class MovieApiTest extends TestCase
                 ],
                 'pagination' => ['total', 'per_page', 'current_page', 'last_page'],
             ]);
-            
+
         $this->assertEquals(20, $response->json('pagination.total'));
     }
 
@@ -44,9 +44,9 @@ class MovieApiTest extends TestCase
         $response->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonFragment(['title' => 'The Matrix']);
-            
+
         $response = $this->getJson('/api/movies?q=Nolan');
-        
+
         $response->assertOk()
              // Assuming director search is implemented in Service
             ->assertJsonFragment(['director' => 'Christopher Nolan']);
@@ -72,7 +72,7 @@ class MovieApiTest extends TestCase
     public function can_create_movie(): void
     {
         $user = User::factory()->create();
-        
+
         $payload = [
             'title' => 'Interstellar',
             'year' => 2014,
@@ -103,15 +103,15 @@ class MovieApiTest extends TestCase
     public function returns_500_if_movie_creation_fails(): void
     {
         $user = User::factory()->create();
-        
+
         $this->mock(\App\Services\Movie\MovieServiceInterface::class, function ($mock) {
             $mock->shouldReceive('createMovie')->andThrow(new \Exception('Database error'));
         });
 
         $response = $this->actingAs($user)->postJson('/api/movies', [
-            'title' => 'Interstellar', 
+            'title' => 'Interstellar',
             'year' => 2014,
-            'director' => 'Christopher Nolan'
+            'director' => 'Christopher Nolan',
         ]);
 
         $response->assertStatus(500)
