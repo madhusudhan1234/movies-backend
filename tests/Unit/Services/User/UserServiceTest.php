@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Unit\Services\User;
 
 use App\Models\User;
 use App\Services\User\UserService;

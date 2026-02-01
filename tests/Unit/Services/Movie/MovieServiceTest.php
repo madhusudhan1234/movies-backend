@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Unit\Services\Movie;
 
 use App\Models\Movie;
 use App\Models\User;
