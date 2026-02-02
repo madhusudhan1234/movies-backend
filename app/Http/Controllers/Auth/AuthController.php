@@ -6,17 +6,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\LoginFailedException;
 use App\Http\Actions\LoginAction;
+use App\Http\Actions\UserRegisterAction;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
 use App\Repositories\User\UserRepository;
 use App\Services\User\UserServiceInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,16 +25,18 @@ class AuthController extends BaseController
     ) {
     }
 
-    public function register(RegisterRequest $request): JsonResponse
+    /**
+     * @param RegisterRequest    $request
+     * @param UserRegisterAction $action
+     *
+     * @return JsonResponse
+     * @throws LaravelRepositoryException
+     */
+    public function register(RegisterRequest $request, UserRegisterAction $action): JsonResponse
     {
-        $user = $this->userService->save($request->validated());
+        $user = $action->execute($request->validated());
 
-        $token = $user->createtoken('authToken')->plainTextToken;
-
-        return $this->success('Registered successfully.', [
-            'user'  => new UserResource($user),
-            'token' => $token,
-        ], Response::HTTP_CREATED);
+        return $this->success('Registered successfully.', $user, Response::HTTP_CREATED);
     }
 
     /**

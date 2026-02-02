@@ -8,6 +8,7 @@ use App\Enums\DBTables;
 use App\Enums\UserRole;
 use Carbon\CarbonInterface;
 use Database\Factories\UserFactory;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -26,13 +27,15 @@ use Laravel\Sanctum\HasApiTokens;
  * @property CarbonInterface      $created_at
  * @property CarbonInterface      $updated_at
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, \Illuminate\Contracts\Auth\CanResetPassword
 {
-    protected $table = DBTables::USERS;
-    /** @use HasFactory<UserFactory> */
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use CanResetPassword;
+
+    /** @use HasFactory<UserFactory> */
+    protected $table = DBTables::USERS;
 
     protected $fillable = [
         'name',
