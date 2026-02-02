@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -30,7 +31,7 @@ class FavoritesApiTest extends TestCase
             'movie_id' => $movie->id,
         ]);
 
-        $pivot = \Illuminate\Support\Facades\DB::table('favorites')
+        $pivot = DB::table('favorites')
             ->where('user_id', $user->id)
             ->where('movie_id', $movie->id)
             ->first();
