@@ -12,7 +12,7 @@ abstract class BaseController extends Controller
 {
     protected function success(
         string $message,
-        mixed $data = null,
+        $data = null,
         int $status = Response::HTTP_OK
     ): JsonResponse {
         $response = ['message' => $message];
