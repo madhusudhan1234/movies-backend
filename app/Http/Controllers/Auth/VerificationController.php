@@ -5,31 +5,41 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\BaseController;
-use App\Services\User\UserServiceInterface;
+use App\Models\User;
+use App\Repositories\User\UserRepository;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 use Symfony\Component\HttpFoundation\Response;
 
 class VerificationController extends BaseController
 {
     public function __construct(
-        protected UserServiceInterface $userService
-    ) {}
+        protected readonly UserRepository $userRepository
+    ) {
+    }
 
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     * @throws LaravelRepositoryException
+     */
     public function verify(Request $request): JsonResponse
     {
-        $user = $this->userService->findById((int) $request->route('id'));
+        /** @var User $user */
+        $user = $this->userRepository->find((int) $request->get('id'));
 
-        if (! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+        if ( !hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification())) ) {
             return $this->error('Invalid verification link.', Response::HTTP_FORBIDDEN);
         }
 
-        if ($user->hasVerifiedEmail()) {
+        if ( $user->hasVerifiedEmail() ) {
             return $this->success('Email already verified.');
         }
 
-        if ($user->markEmailAsVerified()) {
+        if ( $user->markEmailAsVerified() ) {
             event(new Verified($user));
         }
 
@@ -38,7 +48,7 @@ class VerificationController extends BaseController
 
     public function resend(Request $request): JsonResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
+        if ( $request->user()->hasVerifiedEmail() ) {
             return $this->success('Email already verified.');
         }
 

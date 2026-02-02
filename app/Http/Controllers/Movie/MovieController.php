@@ -5,35 +5,56 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Movie;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Filters\MovieFilter;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
+use App\Http\Transformers\MovieTransformer;
+use App\Repositories\Movie\MovieRepository;
 use App\Services\Movie\MovieServiceInterface;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 use Symfony\Component\HttpFoundation\Response;
 
 class MovieController extends BaseController
 {
     public function __construct(
-        private readonly MovieServiceInterface $movieService
-    ) {}
+        private readonly MovieServiceInterface $movieService,
+        protected readonly MovieRepository $movieRepository
+    ) {
+    }
 
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     * @throws LaravelRepositoryException
+     */
     public function index(Request $request): JsonResponse
     {
-        $query = $request->query('q') ?? '';
+        $queries = $request->validate([
+            'q'        => 'nullable|string',
+            'per_page' => 'nullable|integer',
+        ]);
+        $perPage = $request->input('per_page', 10);
 
-        $movies = $this->movieService->getPaginatedMovies(15, $query);
+        $this->movieRepository->with([
+            'genres',
+            'directors',
+            'producers',
+            'writers',
+            'producers',
+        ]);
+        $this->movieRepository->filter(new MovieFilter($queries));
+        $this->movieRepository->setTransformer(new MovieTransformer());
+        $movies = $this->movieRepository->paginate($perPage);
+        $meta   = array_pop($movies);
 
-        return response()->json([
-            'data' => MovieResource::collection($movies),
-            'pagination' => [
-                'total' => $movies->total(),
-                'per_page' => $movies->perPage(),
-                'current_page' => $movies->currentPage(),
-                'last_page' => $movies->lastPage(),
-            ],
+        return $this->success('', [
+            'data'       => $movies,
+            'pagination' => $meta['pagination'],
         ]);
     }
 

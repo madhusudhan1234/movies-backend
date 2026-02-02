@@ -1,0 +1,44 @@
+### Send POST request with json body
+POST http://localhost/api/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "brenda74@example.com",
+    "password": "password"
+}
+
+
+###
+POST http://localhost/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Some name",
+    "email": "helloq@work.com",
+    "password": "asdf23423asfad",
+    "password_confirmation": "asdf23423asfad"
+}
+
+###
+POST http://localhost/api/forgot-password
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "helloq@work.com"
+}
+
+
+###
+POST http://localhost/api/reset-password
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "helloq@work.com",
+    "token": "a01309e605e2083107609c154124bc6f126ec014f99c10337a35eb56394c541f",
+    "password": "asdf23423asfad",
+    "password_confirmation": "asdf23423asfad"
+}
