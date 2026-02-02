@@ -27,8 +27,11 @@ class AuthApiTest extends TestCase
 
         $response->assertCreated()
             ->assertJsonStructure([
-                'user' => ['id', 'name', 'email'],
-                'token',
+                'message',
+                'data' => [
+                    'user' => ['id', 'name', 'email'],
+                    'token',
+                ],
             ]);
 
         $this->assertDatabaseHas('users', ['email' => 'john@example.com']);
@@ -58,8 +61,11 @@ class AuthApiTest extends TestCase
 
         $response->assertOk()
             ->assertJsonStructure([
-                'user' => ['id', 'name', 'email'],
-                'token',
+                'message',
+                'data' => [
+                    'user' => ['id', 'name', 'email'],
+                    'token',
+                ],
             ]);
     }
 
@@ -91,7 +97,7 @@ class AuthApiTest extends TestCase
         $response = $this->withHeader('Authorization', 'Bearer '.$token)->postJson('/api/logout');
 
         $response->assertOk()
-            ->assertJson(['message' => 'Logged out successfully']);
+            ->assertJson(['message' => 'Logged out successfully.']);
 
         $this->assertDatabaseMissing('personal_access_tokens', [
             'tokenable_id' => $user->id,

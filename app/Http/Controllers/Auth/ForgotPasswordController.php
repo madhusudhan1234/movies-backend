@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\Auth\ResetLinkRequest;
 use App\Http\Requests\Auth\ResetRequest;
 use Illuminate\Auth\Events\PasswordReset;
@@ -13,17 +13,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
-class ForgotPasswordController extends Controller
+class ForgotPasswordController extends BaseController
 {
     public function sendResetLink(ResetLinkRequest $request): JsonResponse
     {
         $status = Password::sendResetLink($request->only('email'));
 
         if ($status === Password::RESET_LINK_SENT) {
-            return response()->json(['message' => __($status)]);
+            return $this->success(__($status));
         }
 
-        return response()->json(['message' => __($status)], 400);
+        return $this->error(__($status));
     }
 
     public function reset(ResetRequest $request): JsonResponse
@@ -42,9 +42,9 @@ class ForgotPasswordController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return response()->json(['message' => __($status)]);
+            return $this->success(__($status));
         }
 
-        return response()->json(['message' => __($status)], 400);
+        return $this->error(__($status));
     }
 }

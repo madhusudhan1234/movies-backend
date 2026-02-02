@@ -4,36 +4,27 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Movie;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class FavoritesController extends Controller
+class FavoritesController extends BaseController
 {
     public function addToFavorites(Movie $movie): JsonResponse
     {
         /** @var User $user */
         $user = auth()->user();
 
-        /** @var User $user */
-        $user = auth()->user();
-
-        // Check if already favorited
         if ($user->favoriteMovies()->where('movie_id', $movie->id)->exists()) {
-            return response()->json([
-                'message' => 'Movie is already in favorites',
-            ], Response::HTTP_CONFLICT);
+            return $this->error('Movie is already in favorites.', Response::HTTP_CONFLICT);
         }
 
         $user->favoriteMovies()->attach($movie->id);
 
-        return response()->json([
-            'message' => 'Movie added to favorites',
-            'data' => new MovieResource($movie),
-        ]);
+        return $this->success('Movie added to favorites.', new MovieResource($movie));
     }
 
     public function removeFromFavorites(Movie $movie): JsonResponse
@@ -41,13 +32,8 @@ class FavoritesController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        /** @var User $user */
-        $user = auth()->user();
-
         $user->favoriteMovies()->detach($movie->id);
 
-        return response()->json([
-            'message' => 'Movie removed from favorites',
-        ]);
+        return $this->success('Movie removed from favorites.');
     }
 }

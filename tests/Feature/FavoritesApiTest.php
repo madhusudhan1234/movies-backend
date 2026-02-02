@@ -22,7 +22,7 @@ class FavoritesApiTest extends TestCase
 
         $response->assertOk()
             ->assertJson([
-                'message' => 'Movie added to favorites',
+                'message' => 'Movie added to favorites.',
             ]);
 
         $this->assertDatabaseHas('favorites', [
@@ -51,7 +51,7 @@ class FavoritesApiTest extends TestCase
 
         $response->assertStatus(409)
             ->assertJson([
-                'message' => 'Movie is already in favorites',
+                'message' => 'Movie is already in favorites.',
             ]);
     }
 
@@ -67,7 +67,7 @@ class FavoritesApiTest extends TestCase
 
         $response->assertOk()
             ->assertJson([
-                'message' => 'Movie removed from favorites',
+                'message' => 'Movie removed from favorites.',
             ]);
 
         $this->assertDatabaseMissing('favorites', [
