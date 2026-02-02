@@ -1,0 +1,9 @@
+### Send POST request with json body
+POST http://localhost/api/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "brenda74@example.com",
+    "password": "password"
+}

@@ -9,6 +9,9 @@ use App\Services\User\UserServiceInterface;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ *
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23d964efb8c28cf31de501f0a8930a33",
+    "content-hash": "2075ab99a721e2275f0d32225a0ea253",
     "packages": [
         {
             "name": "brick/math",
@@ -1922,6 +1922,76 @@
             "time": "2026-01-23T15:30:45+00:00"
         },
         {
+            "name": "league/fractal",
+            "version": "0.20.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/fractal.git",
+                "reference": "573ca2e0e348a7fe573a3e8fbc29a6588ece8c4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/573ca2e0e348a7fe573a3e8fbc29a6588ece8c4e",
+                "reference": "573ca2e0e348a7fe573a3e8fbc29a6588ece8c4e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "doctrine/orm": "^2.5",
+                "illuminate/contracts": "~5.0",
+                "laminas/laminas-paginator": "~2.12",
+                "mockery/mockery": "^1.3",
+                "pagerfanta/pagerfanta": "~1.0.0|~4.0.0",
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "~3.4",
+                "vimeo/psalm": "^4.30"
+            },
+            "suggest": {
+                "illuminate/pagination": "The Illuminate Pagination component.",
+                "laminas/laminas-paginator": "Laminas Framework Paginator",
+                "pagerfanta/pagerfanta": "Pagerfanta Paginator"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.20.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Fractal\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Phil Sturgeon",
+                    "email": "me@philsturgeon.uk",
+                    "homepage": "http://philsturgeon.uk/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Handle the output of complex data structures ready for API output.",
+            "homepage": "http://fractal.thephpleague.com/",
+            "keywords": [
+                "api",
+                "json",
+                "league",
+                "rest"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/fractal/issues",
+                "source": "https://github.com/thephpleague/fractal/tree/0.20.2"
+            },
+            "time": "2025-02-14T21:33:14+00:00"
+        },
+        {
             "name": "league/mime-type-detection",
             "version": "1.16.0",
             "source": {
@@ -3309,6 +3379,75 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.12.18"
             },
             "time": "2025-12-17T14:35:46+00:00"
+        },
+        {
+            "name": "puncoz/laravel-repository",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/puncoz-official/laravel-repository.git",
+                "reference": "b5342dbc43583742131a62a4e746c9150a81d52c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/puncoz-official/laravel-repository/zipball/b5342dbc43583742131a62a4e746c9150a81d52c",
+                "reference": "b5342dbc43583742131a62a4e746c9150a81d52c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
+                "league/fractal": "^0.20.1",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "orchestra/testbench": "^7.49",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan-deprecation-rules": "^1.2",
+                "phpstan/phpstan-phpunit": "^1.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JoBins\\LaravelRepository\\LaravelRepositoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JoBins\\LaravelRepository\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Puncoz Nepal",
+                    "email": "puncoz138@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A basic light weight package to implement Repository Design Pattern in Laravel.",
+            "homepage": "https://github.com/JoBinsJP/laravel-repository",
+            "keywords": [
+                "jobins",
+                "laravel",
+                "laravel-repository"
+            ],
+            "support": {
+                "source": "https://github.com/puncoz-official/laravel-repository/tree/v1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/JoBinsJP",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-04-23T17:15:50+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
