@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\DBTables;
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class People extends Model
 {
+    use HasFactory;
+    
     protected $table = DBTables::PEOPLES;
 
     protected $fillable = [

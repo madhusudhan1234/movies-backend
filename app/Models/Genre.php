@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\DBTables;
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Genre extends Model
 {
+    use HasFactory;
+
     protected $table = DBTables::GENRES;
 
     protected $fillable = [

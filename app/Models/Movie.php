@@ -71,6 +71,11 @@ class Movie extends Model implements HasMedia
         'website',
     ];
 
+    protected $casts = [
+        'awards'  => 'array',
+        'ratings' => 'object',
+    ];
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::POSTER)->singleFile();
@@ -91,6 +96,11 @@ class Movie extends Model implements HasMedia
 
     public function credits(): BelongsToMany
     {
-        return $this->belongsToMany(People::class, DBTables::MOVIES_CREDITS)->withTimestamps();
+        return $this->belongsToMany(People::class, DBTables::MOVIES_CREDITS)->withPivot('role')->withTimestamps();
+    }
+
+    public function genres(): BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class, DBTables::MOVIES_GENRE)->withTimestamps();
     }
 }
