@@ -1,0 +1,644 @@
+{
+  "info": {
+    "_postman_id": "11563e5f-17c1-4069-b73a-c20e7bbd13ed",
+    "name": "Movie-Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "28134624"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "/api/register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Madhu Sudhan Subedi\",\n    \"email\": \"madsub199444@gmail.com\",\n    \"password\": \"Coqwar-bugho2-gibwyk\",\n    \"password_confirmation\": \"Coqwar-bugho2-gibwyk\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Parse the JSON response body",
+                  "const responseJson = pm.response.json();",
+                  "",
+                  "// Extract the token from the data object",
+                  "const token = responseJson.data.token;",
+                  "",
+                  "// Set the collection variable",
+                  "pm.collectionVariables.set(\"MOVIE_BEARER_TOKEN\", token);",
+                  "",
+                  "console.log(\"Token has been updated to: \" + token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"madsub1994@gmail.com\",\n    \"password\": \"Coqwar-bugho2-gibwyk\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/forgot-password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"madhusudhansubedi4@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/forgot-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "forgot-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/reset-password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"a17f667e8c3676e8d6377a1af469bf977e9d23a90e648a86c0532eaab1c9c7cb\",\n    \"email\": \"madhusudhansubedi4@gmail.com\",\n    \"password\": \"Passwords\",\n    \"password_confirmation\": \"Passwords\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/reset-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "reset-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/email/resend",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{MOVIE_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"madhusudhansubedi4@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/email/resend",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "email",
+                "resend"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4|8QH0t1EmnMICbDN4pssDev2Le1NXBT04C06iGWcye4ebb81c",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"madhusudhansubedi4@gmail.com\",\n    \"password\": \"Password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/user",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{MOVIE_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"madhusudhansubedi4@gmail.com\",\n    \"password\": \"Password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/logout",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Movie",
+      "item": [
+        {
+          "name": "/api/movies",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost/api/movies?page=1&q",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "movies"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "q",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/movies/{movie}",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost/api/movies/323232",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "movies",
+                "323232"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/movies",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{MOVIE_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Inception\",\n    \"imdb_id\": \"tt1375666\",\n    \"year\": 2010,\n    \"rated\": \"PG-13\",\n    \"released\": \"2010-07-16\",\n    \"runtime\": \"148 min\",\n    \"genre\": \"Action, Adventure, Sci-Fi\",\n    \"director\": \"Christopher Nolan\",\n    \"writer\": \"Christopher Nolan\",\n    \"actors\": \"Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page\",\n    \"plot\": \"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.\",\n    \"language\": \"English, Japanese, French\",\n    \"country\": \"USA, UK\",\n    \"awards\": \"Won 4 Oscars. Another 152 wins & 204 nominations.\",\n    \"poster\": \"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\",\n    \"metascore\": 74,\n    \"imdb_rating\": 8.8,\n    \"imdb_votes\": \"2,067,042\",\n    \"type\": \"movie\",\n    \"dvd\": \"2010-12-07\",\n    \"box_office\": \"$292,576,195\",\n    \"production\": \"Warner Bros. Pictures\",\n    \"website\": \"https://www.warnerbros.com/movies/inception\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/movies",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "movies"
+              ],
+              "query": [
+                {
+                  "key": "Accept",
+                  "value": "application/json",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/movies/{movie}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{MOVIE_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Inception\",\n    \"imdb_id\": \"tt1375666\",\n    \"year\": 2015,\n    \"rated\": \"PG-13\",\n    \"released\": \"2010-07-16\",\n    \"runtime\": \"148 min\",\n    \"genre\": \"Action, Adventure, Sci-Fi\",\n    \"director\": \"Christopher Nolan\",\n    \"writer\": \"Christopher Nolan\",\n    \"actors\": \"Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page\",\n    \"plot\": \"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.\",\n    \"language\": \"English, Japanese, French\",\n    \"country\": \"USA, UK\",\n    \"awards\": \"Won 4 Oscars. Another 152 wins & 204 nominations.\",\n    \"poster\": \"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\",\n    \"metascore\": 74,\n    \"imdb_rating\": 8.8,\n    \"imdb_votes\": \"2,067,042\",\n    \"type\": \"movie\",\n    \"dvd\": \"2010-12-07\",\n    \"box_office\": \"$292,576,195\",\n    \"production\": \"Warner Bros. Pictures\",\n    \"website\": \"https://www.warnerbros.com/movies/inception\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/movies/51",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "movies",
+                "51"
+              ],
+              "query": [
+                {
+                  "key": "Accept",
+                  "value": "application/json",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/movies/{movie}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{MOVIE_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Inception\",\n    \"imdb_id\": \"tt1375666\",\n    \"year\": 2015,\n    \"rated\": \"PG-13\",\n    \"released\": \"2010-07-16\",\n    \"runtime\": \"148 min\",\n    \"genre\": \"Action, Adventure, Sci-Fi\",\n    \"director\": \"Christopher Nolan\",\n    \"writer\": \"Christopher Nolan\",\n    \"actors\": \"Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page\",\n    \"plot\": \"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.\",\n    \"language\": \"English, Japanese, French\",\n    \"country\": \"USA, UK\",\n    \"awards\": \"Won 4 Oscars. Another 152 wins & 204 nominations.\",\n    \"poster\": \"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\",\n    \"metascore\": 74,\n    \"imdb_rating\": 8.8,\n    \"imdb_votes\": \"2,067,042\",\n    \"type\": \"movie\",\n    \"dvd\": \"2010-12-07\",\n    \"box_office\": \"$292,576,195\",\n    \"production\": \"Warner Bros. Pictures\",\n    \"website\": \"https://www.warnerbros.com/movies/inception\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/api/movies/19999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "movies",
+                "19999"
+              ],
+              "query": [
+                {
+                  "key": "Accept",
+                  "value": "application/json",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AddToFavorite",
+      "item": [
+        {
+          "name": "/api/movies/{movie}/favorite",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Parse the JSON response body",
+                  "const responseJson = pm.response.json();",
+                  "",
+                  "// Extract the token from the data object",
+                  "const token = responseJson.data.token;",
+                  "",
+                  "// Set the collection variable",
+                  "pm.collectionVariables.set(\"MOVIE_BEARER_TOKEN\", token);",
+                  "",
+                  "console.log(\"Token has been updated to: \" + token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{MOVIE_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost/api/movies/3/favorite",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "movies",
+                "3",
+                "favorite"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/movies/{movie}/favorite",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{MOVIE_BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost/api/movies/3/favorite",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "api",
+                "movies",
+                "3",
+                "favorite"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "MOVIE_BEARER_TOKEN",
+      "value": ""
+    }
+  ]
+}

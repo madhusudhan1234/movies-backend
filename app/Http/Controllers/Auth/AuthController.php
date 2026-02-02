@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
@@ -12,8 +12,9 @@ use App\Services\User\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
     public function __construct(
         protected UserServiceInterface $userService
@@ -25,11 +26,10 @@ class AuthController extends Controller
 
         $token = $user->createtoken('authToken')->plainTextToken;
 
-        return response()->json([
-            'message' => 'Registered successfully.',
+        return $this->success('Registered successfully.', [
             'user' => new UserResource($user),
             'token' => $token,
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -37,12 +37,12 @@ class AuthController extends Controller
         $user = $this->userService->findByEmail($request->email);
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid Credentials'], 401);
+            return $this->error('Invalid Credentials', Response::HTTP_UNAUTHORIZED);
         }
 
         $token = $user->createToken('authtoken')->plainTextToken;
 
-        return response()->json([
+        return $this->success('Logged in successfully.', [
             'user' => new UserResource($user),
             'token' => $token,
         ]);
@@ -52,6 +52,6 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logged out successfully']);
+        return $this->success('Logged out successfully.');
     }
 }

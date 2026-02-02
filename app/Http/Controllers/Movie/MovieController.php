@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Movie;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
@@ -14,13 +14,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MovieController extends Controller
+class MovieController extends BaseController
 {
     public function __construct(
         private readonly MovieServiceInterface $movieService
     ) {}
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $query = $request->query('q') ?? '';
 
@@ -42,14 +42,13 @@ class MovieController extends Controller
         try {
             $movie = $this->movieService->createMovie($request->validated());
 
-            return response()->json([
-                'message' => 'Movie created successfully',
-                'data' => new MovieResource($movie),
-            ], Response::HTTP_CREATED);
+            return $this->success(
+                'Movie created successfully.',
+                new MovieResource($movie),
+                Response::HTTP_CREATED
+            );
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Unable to create movie',
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->error('Unable to create movie.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -57,27 +56,20 @@ class MovieController extends Controller
     {
         $movie = $this->movieService->getMovieById($id);
 
-        return response()->json([
-            'data' => new MovieResource($movie),
-        ]);
+        return $this->success('Movie retrieved successfully.', new MovieResource($movie));
     }
 
     public function update(UpdateMovieRequest $request, int $id): JsonResponse
     {
         $updatedMovie = $this->movieService->updateMovie($id, $request->validated());
 
-        return response()->json([
-            'message' => 'Movie updated successfully',
-            'data' => new MovieResource($updatedMovie),
-        ]);
+        return $this->success('Movie updated successfully.', new MovieResource($updatedMovie));
     }
 
     public function destroy(int $id): JsonResponse
     {
         $this->movieService->deleteMovie($id);
 
-        return response()->json([
-            'message' => 'Movie deleted successfully',
-        ]);
+        return $this->success('Movie deleted successfully.');
     }
 }

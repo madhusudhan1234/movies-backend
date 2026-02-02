@@ -115,7 +115,7 @@ class MovieApiTest extends TestCase
         ]);
 
         $response->assertStatus(500)
-            ->assertJson(['message' => 'Unable to create movie']);
+            ->assertJson(['message' => 'Unable to create movie.']);
     }
 
     #[Test]
@@ -146,7 +146,7 @@ class MovieApiTest extends TestCase
         $response = $this->actingAs($user)->deleteJson("/api/movies/{$movie->id}");
 
         $response->assertOk()
-            ->assertJson(['message' => 'Movie deleted successfully']);
+            ->assertJson(['message' => 'Movie deleted successfully.']);
 
         $this->assertDatabaseMissing('movies', ['id' => $movie->id]);
     }

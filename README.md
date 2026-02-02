@@ -1,59 +1,178 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Movie Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based RESTful API for movie management.
 
-## About Laravel
+## Requirements
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Docker** & **Docker Compose**
+- **Git**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **PHP 8.5** (Alpine-based)
+- **Laravel 12**
+- **PostgreSQL**
+- **Redis**
+- **Nginx**
 
-## Learning Laravel
+## Local Development Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Clone the Repository
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone <repository-url>
+cd movie-app
+```
 
-## Laravel Sponsors
+### 2. Configure Environment
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Copy the example environment file and update as needed:
 
-### Premium Partners
+```bash
+cp .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Update the following variables in `.env` for Docker:
 
-## Contributing
+```env
+DB_CONNECTION=pgsql
+DB_HOST=postgres
+DB_PORT=5432
+DB_DATABASE=movie_app
+DB_USERNAME=root
+DB_PASSWORD=password
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+REDIS_HOST=redis
 
-## Code of Conduct
+# Optional: Set your UID/GID for proper file permissions
+UID=1000
+GID=1000
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# CORS configuration for frontend
+CORS_ALLOWED_ORIGINS=http://localhost:5173
+```
 
-## Security Vulnerabilities
+### 3. Start Docker Containers
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+docker compose up -d --build
+```
 
-## License
+This will start the following services:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Service    | Container  | Port | Description         |
+|------------|------------|------|---------------------|
+| `app`      | app        | -    | PHP-FPM application |
+| `nginx`    | nginx      | 80   | Web server          |
+| `postgres` | postgres   | 5432 | PostgreSQL database |
+| `redis`    | redis      | 6379 | Redis cache         |
+
+### 4. Install Dependencies
+
+```bash
+docker compose exec app composer install
+docker compose exec app php artisan key:generate
+```
+
+### 5. Run Database Migrations
+
+```bash
+docker compose exec app php artisan migrate
+```
+
+### 6. (Optional) Seed the Database
+
+```bash
+docker compose exec app php artisan db:seed
+```
+
+## Accessing the API
+
+- **Base URL**: http://localhost/api
+
+## Useful Commands
+
+```bash
+# View logs
+docker compose logs -f
+
+# Stop containers
+docker compose down
+
+# Rebuild containers
+docker compose up -d --build
+
+# Run artisan commands
+docker compose exec app php artisan <command>
+
+# Run tests
+docker compose exec app php artisan test
+
+# Clear caches
+docker compose exec app php artisan config:clear
+docker compose exec app php artisan cache:clear
+```
+
+## API Endpoints
+
+### Authentication
+
+| Method | Endpoint          | Auth | Description              |
+|--------|-------------------|------|--------------------------|
+| POST   | /api/register     | No   | Register a new user      |
+| POST   | /api/login        | No   | Login and get token      |
+| POST   | /api/logout       | Yes  | Logout (revoke token)    |
+
+### User
+
+| Method | Endpoint   | Auth | Description               |
+|--------|------------|------|---------------------------|
+| GET    | /api/user  | Yes  | Get authenticated user    |
+
+### Password Reset
+
+| Method | Endpoint             | Auth | Description              |
+|--------|----------------------|------|--------------------------|
+| POST   | /api/forgot-password | No   | Send password reset link |
+| POST   | /api/reset-password  | No   | Reset password with token|
+
+### Email Verification
+
+| Method | Endpoint                      | Auth | Description                 |
+|--------|-------------------------------|------|-----------------------------|
+| GET    | /api/email/verify/{id}/{hash} | No   | Verify email address        |
+| POST   | /api/email/resend             | Yes  | Resend verification email   |
+
+### Movies
+
+| Method | Endpoint           | Auth | Description          |
+|--------|--------------------|------|----------------------|
+| GET    | /api/movies        | No   | List all movies      |
+| GET    | /api/movies/{id}   | No   | Get a specific movie |
+| POST   | /api/movies        | Yes  | Create a new movie   |
+| PUT    | /api/movies/{id}   | Yes  | Update a movie       |
+| DELETE | /api/movies/{id}   | Yes  | Delete a movie       |
+
+### Favorites
+
+| Method | Endpoint                    | Auth | Description              |
+|--------|-----------------------------|------|--------------------------|
+| POST   | /api/movies/{id}/favorite   | Yes  | Add movie to favorites   |
+| DELETE | /api/movies/{id}/favorite   | Yes  | Remove from favorites    |
+
+Following is the collection for Postman:
+
+[Download Postman Collection](public/postman/Movie-Backend.postman_collection.json)
+
+## CORS Configuration
+
+CORS is configured via the `CORS_ALLOWED_ORIGINS` environment variable:
+
+```env
+CORS_ALLOWED_ORIGINS=http://localhost:5173
+```
+
+Likewise Frontend Url is there for the email reset password link:
+```env
+FRONTEND_URL=http://localhost:5173
+```
