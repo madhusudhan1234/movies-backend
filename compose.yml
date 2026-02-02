@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
       args:
-        - UID=${UID}
-        - GID=${GID}
+        - UID=${DOCKER_UID}
+        - GID=${DOCKER_GID}
     container_name: app
     volumes:
       - ./:/var/www

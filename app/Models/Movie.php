@@ -2,41 +2,49 @@
 
 namespace App\Models;
 
+use App\Enums\DBTables;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Ramsey\Collection\Collection;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * @property-read int $id Movie ID (Primary Key)
- * @property string|null $imdb_id IMDB identifier (unique)
- * @property string $title Movie title (required)
- * @property int|null $year Release year
- * @property string|null $rated Rating classification (G, PG, PG-13, R, NC-17, etc.)
- * @property string|null $released Release date (YYYY-MM-DD)
- * @property string|null $runtime Runtime duration (e.g., "148 min")
- * @property string|null $genre Comma-separated genres (e.g., "Action, Sci-Fi, Thriller")
- * @property string|null $director Director name(s)
- * @property string|null $writer Writer/screenwriter name(s)
- * @property string|null $actors Actor name(s) (comma-separated)
- * @property string|null $plot Movie plot summary/description
- * @property string|null $language Languages used in movie
- * @property string|null $country Production country/countries
- * @property string|null $awards Awards and nominations text
- * @property string|null $poster URL to movie poster image
- * @property float|null $metascore Metascore rating (0-100)
- * @property float|null $imdb_rating IMDB rating (0-10)
- * @property string|null $imdb_votes Number of IMDB votes
- * @property string|null $type Movie type (movie, series, episode, etc.)
- * @property string|null $dvd DVD release date (YYYY-MM-DD)
- * @property string|null $box_office Box office earnings
- * @property string|null $production Production company name
- * @property string|null $website Official movie website URL
- * @property \Carbon\Carbon $created_at Timestamp when record was created
- * @property \Carbon\Carbon $updated_at Timestamp when record was last updated
+ * @property int             $id
+ * @property string          $imdb_id
+ * @property string          $title
+ * @property string          $year
+ * @property string          $rated
+ * @property string          $released
+ * @property string          $runtime
+ * @property string          $plot
+ * @property string          $language
+ * @property string          $country
+ * @property array           $awards
+ * @property string          $metascore
+ * @property string          $imdb_rating
+ * @property string          $imdb_votes
+ * @property array           $ratings
+ * @property string          $type
+ * @property string          $dvd
+ * @property integer         $box_office_collection
+ * @property string          $production
+ * @property string          $website
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ *
+ * @property Collection      $favorites
+ * @property Collection      $credits
  */
-class Movie extends Model
+class Movie extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+
+    public const POSTER = 'poster';
 
     /**
      * @var list<string>
@@ -48,27 +56,41 @@ class Movie extends Model
         'rated',
         'released',
         'runtime',
-        'genre',
-        'director',
-        'writer',
-        'actors',
         'plot',
         'language',
         'country',
         'awards',
-        'poster',
         'metascore',
         'imdb_rating',
         'imdb_votes',
+        'ratings',
         'type',
         'dvd',
-        'box_office',
+        'box_office_collection',
         'production',
         'website',
     ];
 
-    public function favoritedBy(): BelongsToMany
+    public function registerMediaCollections(): void
     {
-        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+        $this->addMediaCollection(self::POSTER)->singleFile();
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')->width(150)->quality(50);
+        $this->addMediaConversion('small')->width(300);
+        $this->addMediaConversion('medium')->width(600);
+        $this->addMediaConversion('large')->width(1000);
+    }
+
+    public function favorites(): BelongsToMany
+    {
+        return $this->belongsToMany(Favorite::class, DBTables::FAVORITES)->withTimestamps();
+    }
+
+    public function credits(): BelongsToMany
+    {
+        return $this->belongsToMany(People::class, DBTables::MOVIES_CREDITS)->withTimestamps();
     }
 }

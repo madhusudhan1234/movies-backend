@@ -20,8 +20,8 @@ A Laravel-based RESTful API for movie management.
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd movie-app
+git clone git@github.com:madhusudhan1234/movie-backend.git
+cd movie-backend
 ```
 
 ### 2. Configure Environment
