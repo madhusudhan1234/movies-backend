@@ -1,0 +1,4 @@
+### GET request with a header
+GET http://localhost/api/movies?q=dig
+Accept: application/json
+

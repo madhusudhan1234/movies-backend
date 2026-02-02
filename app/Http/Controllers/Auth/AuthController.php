@@ -10,8 +10,6 @@ use App\Http\Actions\UserRegisterAction;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Repositories\User\UserRepository;
-use App\Services\User\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
@@ -19,12 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends BaseController
 {
-    public function __construct(
-        protected UserServiceInterface $userService,
-        protected readonly UserRepository $userRepository
-    ) {
-    }
-
     /**
      * @param RegisterRequest    $request
      * @param UserRegisterAction $action

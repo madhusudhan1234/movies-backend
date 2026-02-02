@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DBTables;
+use App\Enums\MovieCreditsRole;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -97,6 +98,26 @@ class Movie extends Model implements HasMedia
     public function credits(): BelongsToMany
     {
         return $this->belongsToMany(People::class, DBTables::MOVIES_CREDITS)->withPivot('role')->withTimestamps();
+    }
+
+    public function directors(): BelongsToMany
+    {
+        return $this->credits()->where('role', MovieCreditsRole::DIRECTOR);
+    }
+
+    public function actors(): BelongsToMany
+    {
+        return $this->credits()->where('role', MovieCreditsRole::ACTOR);
+    }
+
+    public function writers(): BelongsToMany
+    {
+        return $this->credits()->where('role', MovieCreditsRole::WRITER);
+    }
+
+    public function producers(): BelongsToMany
+    {
+        return $this->credits()->where('role', MovieCreditsRole::PRODUCER);
     }
 
     public function genres(): BelongsToMany
