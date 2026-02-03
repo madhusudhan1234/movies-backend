@@ -6,6 +6,7 @@ use App\Helper;
 use App\Http\Transformers\UserTransformer;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
+use Illuminate\Auth\Events\Registered;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 
 /**
@@ -29,6 +30,8 @@ class UserRegisterAction
             'email'    => $data['email'],
             'password' => $data['password'],
         ]);
+
+        event(new Registered($user));
 
         return [
             'token'   => $user->createToken('authtoken')->plainTextToken,

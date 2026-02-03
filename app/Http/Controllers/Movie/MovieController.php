@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 class MovieController extends BaseController
 {
     public function __construct(
-        private readonly MovieServiceInterface $movieService,
         protected readonly MovieRepository $movieRepository
     ) {
     }
@@ -58,39 +57,21 @@ class MovieController extends BaseController
         ]);
     }
 
-    public function store(StoreMovieRequest $request): JsonResponse
-    {
-        try {
-            $movie = $this->movieService->createMovie($request->validated());
-
-            return $this->success(
-                'Movie created successfully.',
-                new MovieResource($movie),
-                Response::HTTP_CREATED
-            );
-        } catch (Exception $e) {
-            return $this->error('Unable to create movie.', Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
+    /**
+     * @throws LaravelRepositoryException
+     */
     public function show(int $id): JsonResponse
     {
-        $movie = $this->movieService->getMovieById($id);
+        $this->movieRepository->with([
+            'genres',
+            'directors',
+            'producers',
+            'writers',
+            'producers',
+        ]);
+        $this->movieRepository->setTransformer(new MovieTransformer());
+        $movie = $this->movieRepository->find($id);
 
-        return $this->success('Movie retrieved successfully.', new MovieResource($movie));
-    }
-
-    public function update(UpdateMovieRequest $request, int $id): JsonResponse
-    {
-        $updatedMovie = $this->movieService->updateMovie($id, $request->validated());
-
-        return $this->success('Movie updated successfully.', new MovieResource($updatedMovie));
-    }
-
-    public function destroy(int $id): JsonResponse
-    {
-        $this->movieService->deleteMovie($id);
-
-        return $this->success('Movie deleted successfully.');
+        return $this->success('Movie retrieved successfully.', $movie);
     }
 }
