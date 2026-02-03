@@ -26,12 +26,12 @@ class VerificationController extends BaseController
      * @return JsonResponse
      * @throws LaravelRepositoryException
      */
-    public function verify(Request $request): JsonResponse
+    public function verify(int $id, string $hash): JsonResponse
     {
         /** @var User $user */
-        $user = $this->userRepository->find((int) $request->get('id'));
+        $user = $this->userRepository->find($id);
 
-        if ( !hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification())) ) {
+        if ( !hash_equals($hash, sha1($user->getEmailForVerification())) ) {
             return $this->error('Invalid verification link.', Response::HTTP_FORBIDDEN);
         }
 

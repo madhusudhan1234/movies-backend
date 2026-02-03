@@ -72,6 +72,8 @@ class MovieController extends BaseController
         $this->movieRepository->setTransformer(new MovieTransformer());
         $movie = $this->movieRepository->find($id);
 
-        return $this->success('Movie retrieved successfully.', $movie);
+        return $this->success('Movie retrieved successfully.', [
+            'data' => $movie
+        ]);
     }
 }
