@@ -3,12 +3,14 @@
 namespace App\Http\Transformers;
 
 use App\Models\Movie;
+use Chotkari\Core\Domain\News\Models\News;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 
 class MovieTransformer extends TransformerAbstract
 {
-    protected array $defaultIncludes = ['genres', 'directors', 'actors', 'producers'];
+    protected array $defaultIncludes = ['genres', 'directors', 'actors', 'producers', 'poster'];
 
     public function transform(Movie $movie): array
     {
@@ -55,5 +57,16 @@ class MovieTransformer extends TransformerAbstract
     public function includeProducers(Movie $movie): Collection
     {
         return $this->collection($movie->producers, new PeopleTransformer());
+    }
+
+    public function includePoster(Movie $movie): ?Item
+    {
+        $poster = $movie->getFirstMedia(Movie::POSTER);
+
+        if ( !$poster ) {
+            return null;
+        }
+
+        return $this->item($poster, new MediaTransformer());
     }
 }
