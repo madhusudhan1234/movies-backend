@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Movie;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Filters\MovieFilter;
 use App\Http\Transformers\MovieTransformer;
 use App\Repositories\Movie\MovieRepository;
@@ -15,7 +15,7 @@ use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 /**
  *
  */
-class MovieController extends BaseController
+class MovieController extends Controller
 {
     public function __construct(
         protected readonly MovieRepository $movieRepository
@@ -42,6 +42,8 @@ class MovieController extends BaseController
             'producers',
             'writers',
             'producers',
+            'actors',
+            'media',
         ]);
         $this->movieRepository->filter(new MovieFilter($queries));
         $this->movieRepository->setTransformer(new MovieTransformer());

@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Auth;
 use App\Exceptions\LoginFailedException;
 use App\Http\Actions\LoginAction;
 use App\Http\Actions\UserRegisterAction;
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\JsonResponse;
@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthController extends BaseController
+class AuthController extends Controller
 {
     /**
      * @param RegisterRequest    $request

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Movie;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Filters\MovieFilter;
 use App\Http\Transformers\MovieTransformer;
 use App\Models\User;
@@ -17,7 +17,7 @@ use Throwable;
 /**
  *
  */
-class FavoritesController extends BaseController
+class FavoritesController extends Controller
 {
     public function __construct(
         protected readonly UserRepository $userRepository,

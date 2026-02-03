@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ResetLinkRequest;
 use App\Http\Requests\Auth\ResetRequest;
 use App\Repositories\User\UserRepository;
@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 /**
  *
  */
-class ForgotPasswordController extends BaseController
+class ForgotPasswordController extends Controller
 {
     public function __construct(
         protected readonly UserRepository $userRepository

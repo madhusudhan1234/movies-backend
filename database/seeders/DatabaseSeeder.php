@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Seed users
-        User::factory(10)->create();
+        User::factory(2)->create();
 
         // Seed movies
-        Movie::factory(50)->create();
+        Movie::factory(20)->create();
     }
 }

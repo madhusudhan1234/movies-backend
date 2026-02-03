@@ -86,6 +86,18 @@ docker compose exec app php artisan migrate
 docker compose exec app php artisan db:seed
 ```
 
+### 7. (Optional) Link storage (if you use storage directory for file upload)
+
+```shell
+docker compose exec app php artisan storage:link 
+```
+
+### 8. Start horizon
+
+```shell
+docker compose exec app php artisan horizon
+```
+
 ## Accessing the API
 
 - **Base URL**: http://localhost/api

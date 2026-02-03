@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
 use Illuminate\Auth\Events\Verified;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  *
  */
-class VerificationController extends BaseController
+class VerificationController extends Controller
 {
     public function __construct(
         protected readonly UserRepository $userRepository

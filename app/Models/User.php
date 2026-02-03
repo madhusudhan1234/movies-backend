@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\DBTables;
 use App\Enums\UserRole;
+use App\Notifications\VerifyEmail;
 use Carbon\CarbonInterface;
 use Database\Factories\UserFactory;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -51,6 +52,11 @@ class User extends Authenticatable implements MustVerifyEmail, \Illuminate\Contr
     public function favoriteMovies(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class, DBTables::FAVORITES)->withTimestamps();
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail());
     }
 
     protected function casts(): array

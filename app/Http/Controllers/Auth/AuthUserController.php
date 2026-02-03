@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helper;
 use App\Http\Actions\UserRegisterAction;
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Transformers\UserTransformer;
 use App\Repositories\User\UserRepository;
@@ -17,7 +17,7 @@ use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 /**
  *
  */
-class AuthUserController extends BaseController
+class AuthUserController extends Controller
 {
     public function __construct(
         protected readonly UserRepository $userRepository
