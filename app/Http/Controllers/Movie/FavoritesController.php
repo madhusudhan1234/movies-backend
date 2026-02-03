@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Movie;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -24,7 +23,7 @@ class FavoritesController extends BaseController
 
         $user->favoriteMovies()->attach($movie->id);
 
-        return $this->success('Movie added to favorites.', new MovieResource($movie));
+        return $this->success('Movie added to favorites.', $movie);
     }
 
     public function removeFromFavorites(Movie $movie): JsonResponse

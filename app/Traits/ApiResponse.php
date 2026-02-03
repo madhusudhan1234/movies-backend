@@ -23,11 +23,11 @@ trait ApiResponse
         $data = null,
         int $status = Response::HTTP_OK
     ): JsonResponse {
-        $response = ['message' => $message];
-
         if ( $data !== null ) {
-            $response['data'] = $data;
+            $response = $data;
         }
+
+        $response['message'] = $message;
 
         return FacadesResponse::json($response, $status);
     }
