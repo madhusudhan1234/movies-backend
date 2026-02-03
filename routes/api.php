@@ -23,9 +23,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/email/resend', [VerificationController::class, 'resend']);
     Route::get('/me', AuthUserController::class);
 
-    Route::get('/movies/favorites', [FavoritesController::class, 'getListOfFavorites']);
-    Route::post('/movies/{movieId}/favorites', [FavoritesController::class, 'addToFavorites']);
-    Route::delete('/movies/{movieId}/favorites', [FavoritesController::class, 'removeFromFavorites']);
+    Route::middleware('verified')->group(function () {
+        Route::get('/movies/favorites', [FavoritesController::class, 'getListOfFavorites']);
+        Route::post('/movies/{movieId}/favorites', [FavoritesController::class, 'addToFavorites']);
+        Route::delete('/movies/{movieId}/favorites', [FavoritesController::class, 'removeFromFavorites']);
+    });
 });
 
 Route::get('/movies', [MovieController::class, 'index']);

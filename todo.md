@@ -1,3 +1,3 @@
 - setup and check queue
 - media seeder
-- check if user verified
+

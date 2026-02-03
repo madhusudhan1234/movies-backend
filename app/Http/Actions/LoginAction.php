@@ -108,6 +108,13 @@ class LoginAction
             throw new LoginFailedException('INVALID_CREDENTIALS', 'Invalid Credentials.');
         }
 
+        // 4. check if user is verified
+        // currently, login is allowed even though user is not verified.
+        // so that they can trigger verification email resend fow
+        // if ($user->email_verified_at === null) {
+        //     throw new LoginFailedException('EMAIL_NOT_VERIFIED', 'Email not verified.');
+        //}
+
         return $user;
     }
 }

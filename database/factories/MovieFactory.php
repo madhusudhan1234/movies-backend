@@ -56,6 +56,12 @@ class MovieFactory extends Factory
             foreach ($people as $person) {
                 $movie->credits()->attach($person, ['role' => $this->faker->randomElement(MovieCreditsRole::cases())]);
             }
+
+            try {
+                $movie->addMediaFromUrl('https://picsum.photos/600/400')->toMediaCollection(Movie::POSTER);
+            } catch (\Throwable $exception) {
+                dd($exception);
+            }
         });
     }
 }
