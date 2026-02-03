@@ -19,7 +19,7 @@ class FavoritesApiTest extends TestCase
         $user = User::factory()->create();
         $movie = Movie::factory()->create();
 
-        $response = $this->actingAs($user)->postJson("/api/movies/{$movie->id}/favorite");
+        $response = $this->actingAs($user)->postJson("/api/movies/{$movie->id}/favorites");
 
         $response->assertOk()
             ->assertJson([
@@ -48,11 +48,11 @@ class FavoritesApiTest extends TestCase
 
         $user->favoriteMovies()->attach($movie->id);
 
-        $response = $this->actingAs($user)->postJson("/api/movies/{$movie->id}/favorite");
+        $response = $this->actingAs($user)->postJson("/api/movies/{$movie->id}/favorites");
 
-        $response->assertStatus(409)
+        $response->assertOk()
             ->assertJson([
-                'message' => 'Movie is already in favorites.',
+                'message' => 'Movie added to favorites.',
             ]);
     }
 
@@ -64,7 +64,7 @@ class FavoritesApiTest extends TestCase
 
         $user->favoriteMovies()->attach($movie->id);
 
-        $response = $this->actingAs($user)->deleteJson("/api/movies/{$movie->id}/favorite");
+        $response = $this->actingAs($user)->deleteJson("/api/movies/{$movie->id}/favorites");
 
         $response->assertOk()
             ->assertJson([
@@ -82,7 +82,7 @@ class FavoritesApiTest extends TestCase
     {
         $movie = Movie::factory()->create();
 
-        $this->postJson("/api/movies/{$movie->id}/favorite")->assertUnauthorized();
-        $this->deleteJson("/api/movies/{$movie->id}/favorite")->assertUnauthorized();
+        $this->postJson("/api/movies/{$movie->id}/favorites")->assertUnauthorized();
+        $this->deleteJson("/api/movies/{$movie->id}/favorites")->assertUnauthorized();
     }
 }

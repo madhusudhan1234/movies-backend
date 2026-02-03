@@ -61,13 +61,13 @@ class PasswordResetApiTest extends TestCase
         $response = $this->postJson('/api/reset-password', [
             'token' => $token,
             'email' => $user->email,
-            'password' => 'new-password',
-            'password_confirmation' => 'new-password',
+            'password' => 'Uncompromised-Item-99!',
+            'password_confirmation' => 'Uncompromised-Item-99!',
         ]);
 
         $response->assertOk()
             ->assertJson(['message' => 'Your password has been reset.']);
 
-        $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
+        $this->assertTrue(Hash::check('Uncompromised-Item-99!', $user->fresh()->password));
     }
 }

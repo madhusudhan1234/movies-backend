@@ -27,10 +27,14 @@ class AuthApiTest extends TestCase
 
         $response->assertCreated()
             ->assertJsonStructure([
-                'message',
+                'success',
                 'data' => [
-                    'user' => ['id', 'name', 'email'],
                     'token',
+                    'profile' => [
+                        'id',
+                        'name',
+                        'email',
+                    ],
                 ],
             ]);
 
@@ -61,10 +65,15 @@ class AuthApiTest extends TestCase
 
         $response->assertOk()
             ->assertJsonStructure([
+                'success',
                 'message',
                 'data' => [
-                    'user' => ['id', 'name', 'email'],
                     'token',
+                    'profile' => [
+                        'id',
+                        'name',
+                        'email',
+                    ],
                 ],
             ]);
     }
@@ -84,7 +93,7 @@ class AuthApiTest extends TestCase
 
         $response->assertUnauthorized()
             ->assertJson([
-                'message' => 'Invalid Credentials',
+                'message' => 'Invalid Credentials.',
             ]);
     }
 
@@ -94,7 +103,7 @@ class AuthApiTest extends TestCase
         $user = User::factory()->create();
         $token = $user->createToken('test-token')->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer '.$token)->postJson('/api/logout');
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->postJson('/api/logout');
 
         $response->assertOk()
             ->assertJson(['message' => 'Logged out successfully.']);
@@ -109,12 +118,14 @@ class AuthApiTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->getJson('/api/user');
+        $response = $this->actingAs($user)->getJson('/api/me');
 
         $response->assertOk()
             ->assertJson([
-                'id' => $user->id,
-                'email' => $user->email,
+                'data' => [
+                    'id' => $user->id,
+                    'email' => $user->email,
+                ],
             ]);
     }
 }
