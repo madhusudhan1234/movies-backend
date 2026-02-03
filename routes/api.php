@@ -18,18 +18,15 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 
-Route::get('/movies', [MovieController::class, 'index']);
-Route::get('/movies/{movieId}', [MovieController::class, 'show']);
-
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/email/resend', [VerificationController::class, 'resend']);
     Route::get('/me', AuthUserController::class);
 
-    Route::post('/movies', [MovieController::class, 'store']);
-    Route::put('/movies/{movie}', [MovieController::class, 'update']);
-    Route::delete('/movies/{movie}', [MovieController::class, 'destroy']);
-
-    Route::post('/movies/{movie}/favorite', [FavoritesController::class, 'addToFavorites']);
-    Route::delete('/movies/{movie}/favorite', [FavoritesController::class, 'removeFromFavorites']);
+    Route::get('/movies/favorites', [FavoritesController::class, 'getListOfFavorites']);
+    Route::post('/movies/{movieId}/favorites', [FavoritesController::class, 'addToFavorites']);
+    Route::delete('/movies/{movieId}/favorites', [FavoritesController::class, 'removeFromFavorites']);
 });
+
+Route::get('/movies', [MovieController::class, 'index']);
+Route::get('/movies/{movieId}', [MovieController::class, 'show']);

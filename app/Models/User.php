@@ -50,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail, \Illuminate\Contr
 
     public function favoriteMovies(): BelongsToMany
     {
-        return $this->belongsToMany(Movie::class, 'favorites')->withTimestamps();
+        return $this->belongsToMany(Movie::class, DBTables::FAVORITES)->withTimestamps();
     }
 
     protected function casts(): array

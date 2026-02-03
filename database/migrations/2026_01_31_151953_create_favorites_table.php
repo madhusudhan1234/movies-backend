@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\DBTables;
-use App\Models\Favorite;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;

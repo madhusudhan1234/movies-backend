@@ -92,7 +92,7 @@ class Movie extends Model implements HasMedia
 
     public function favorites(): BelongsToMany
     {
-        return $this->belongsToMany(Favorite::class, DBTables::FAVORITES)->withTimestamps();
+        return $this->belongsToMany(Movie::class, DBTables::FAVORITES)->withTimestamps();
     }
 
     public function credits(): BelongsToMany
