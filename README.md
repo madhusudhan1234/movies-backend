@@ -20,8 +20,8 @@ A Laravel-based RESTful API for movie management.
 ### 1. Clone the Repository
 
 ```bash
-git clone git@github.com:madhusudhan1234/movie-backend.git
-cd movie-backend
+git clone git@github.com:madhusudhan1234/movies-backend.git
+cd movies-backend
 ```
 
 ### 2. Configure Environment
@@ -161,9 +161,6 @@ docker compose exec app php artisan cache:clear
 |--------|--------------------|------|----------------------|
 | GET    | /api/movies        | No   | List all movies      |
 | GET    | /api/movies/{id}   | No   | Get a specific movie |
-| POST   | /api/movies        | Yes  | Create a new movie   |
-| PUT    | /api/movies/{id}   | Yes  | Update a movie       |
-| DELETE | /api/movies/{id}   | Yes  | Delete a movie       |
 
 ### Favorites
 
