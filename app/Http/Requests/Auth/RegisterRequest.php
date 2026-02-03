@@ -8,9 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-/**
- *
- */
 class RegisterRequest extends FormRequest
 {
     /**
@@ -21,8 +18,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => ['required', 'string', 'max:200'],
-            'email'    => ['required', 'string', 'email', Rule::unique('users', 'email'), 'max:200'],
+            'name' => ['required', 'string', 'max:200'],
+            'email' => ['required', 'string', 'email', Rule::unique('users', 'email'), 'max:200'],
             'password' => ['required', 'string', 'confirmed', Password::min(8)->uncompromised()],
         ];
     }

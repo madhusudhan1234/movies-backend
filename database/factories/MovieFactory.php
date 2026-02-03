@@ -19,28 +19,28 @@ class MovieFactory extends Factory
     public function definition(): array
     {
         return [
-            'imdb_id'               => 'tt'.$this->faker->numberBetween(1000000, 9999999),
-            'title'                 => $this->faker->sentence(3),
-            'year'                  => (string) $this->faker->year(),
-            'rated'                 => $this->faker->randomElement(['G', 'PG', 'PG-13', 'R', 'NC-17']),
-            'released'              => $this->faker->date(),
-            'runtime'               => $this->faker->numberBetween(60, 240).' min',
-            'plot'                  => $this->faker->paragraph(),
-            'language'              => $this->faker->languageCode(),
-            'country'               => $this->faker->country(),
-            'awards'                => $this->faker->words(3),
-            'metascore'             => (string) $this->faker->numberBetween(0, 100),
-            'imdb_rating'           => (string) $this->faker->randomFloat(1, 1, 10),
-            'imdb_votes'            => (string) $this->faker->numberBetween(1000, 1000000),
-            'ratings'               => [
+            'imdb_id' => 'tt'.$this->faker->numberBetween(1000000, 9999999),
+            'title' => $this->faker->sentence(3),
+            'year' => (string) $this->faker->year(),
+            'rated' => $this->faker->randomElement(['G', 'PG', 'PG-13', 'R', 'NC-17']),
+            'released' => $this->faker->date(),
+            'runtime' => $this->faker->numberBetween(60, 240).' min',
+            'plot' => $this->faker->paragraph(),
+            'language' => $this->faker->languageCode(),
+            'country' => $this->faker->country(),
+            'awards' => $this->faker->words(3),
+            'metascore' => (string) $this->faker->numberBetween(0, 100),
+            'imdb_rating' => (string) $this->faker->randomFloat(1, 1, 10),
+            'imdb_votes' => (string) $this->faker->numberBetween(1000, 1000000),
+            'ratings' => [
                 ['Source' => 'Internet Movie Database', 'Value' => '8.0/10'],
                 ['Source' => 'Rotten Tomatoes', 'Value' => '80%'],
             ],
-            'type'                  => 'movie',
-            'dvd'                   => $this->faker->date(),
+            'type' => 'movie',
+            'dvd' => $this->faker->date(),
             'box_office_collection' => $this->faker->numberBetween(1000000, 1000000000),
-            'production'            => $this->faker->company(),
-            'website'               => $this->faker->url(),
+            'production' => $this->faker->company(),
+            'website' => $this->faker->url(),
         ];
     }
 

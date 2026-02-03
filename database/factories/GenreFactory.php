@@ -21,7 +21,7 @@ class GenreFactory extends Factory
         $genre = $this->faker->randomElement(config('static-data.genre'));
 
         return [
-            'name'  => Str::slug($genre),
+            'name' => Str::slug($genre),
             'label' => $genre,
         ];
     }

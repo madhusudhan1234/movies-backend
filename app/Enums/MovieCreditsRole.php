@@ -2,9 +2,6 @@
 
 namespace App\Enums;
 
-/**
- *
- */
 enum MovieCreditsRole: string
 {
     case DIRECTOR = 'Director';

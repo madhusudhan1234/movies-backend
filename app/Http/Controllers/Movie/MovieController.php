@@ -12,26 +12,19 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 
-/**
- *
- */
 class MovieController extends Controller
 {
     public function __construct(
         protected readonly MovieRepository $movieRepository
-    ) {
-    }
+    ) {}
 
     /**
-     * @param Request $request
-     *
-     * @return JsonResponse
      * @throws LaravelRepositoryException
      */
     public function index(Request $request): JsonResponse
     {
         $queries = $request->validate([
-            'q'        => 'nullable|string',
+            'q' => 'nullable|string',
             'per_page' => 'nullable|integer',
         ]);
         $perPage = $request->input('per_page', 10);
@@ -46,9 +39,9 @@ class MovieController extends Controller
             'media',
         ]);
         $this->movieRepository->filter(new MovieFilter($queries));
-        $this->movieRepository->setTransformer(new MovieTransformer());
+        $this->movieRepository->setTransformer(new MovieTransformer);
         $movies = $this->movieRepository->paginate($perPage);
-        $meta   = array_pop($movies);
+        $meta = array_pop($movies);
 
         return $this->success($movies, metadata: $meta['pagination']);
     }
@@ -65,7 +58,7 @@ class MovieController extends Controller
             'writers',
             'producers',
         ]);
-        $this->movieRepository->setTransformer(new MovieTransformer());
+        $this->movieRepository->setTransformer(new MovieTransformer);
         $movie = $this->movieRepository->find((int) $movieId);
 
         return $this->success($movie);

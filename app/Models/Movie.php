@@ -14,31 +14,30 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * @property int             $id
- * @property string          $imdb_id
- * @property string          $title
- * @property string          $year
- * @property string          $rated
- * @property string          $released
- * @property string          $runtime
- * @property string          $plot
- * @property string          $language
- * @property string          $country
- * @property array           $awards
- * @property string          $metascore
- * @property string          $imdb_rating
- * @property string          $imdb_votes
- * @property array           $ratings
- * @property string          $type
- * @property string          $dvd
- * @property integer         $box_office_collection
- * @property string          $production
- * @property string          $website
+ * @property int $id
+ * @property string $imdb_id
+ * @property string $title
+ * @property string $year
+ * @property string $rated
+ * @property string $released
+ * @property string $runtime
+ * @property string $plot
+ * @property string $language
+ * @property string $country
+ * @property array $awards
+ * @property string $metascore
+ * @property string $imdb_rating
+ * @property string $imdb_votes
+ * @property array $ratings
+ * @property string $type
+ * @property string $dvd
+ * @property int $box_office_collection
+ * @property string $production
+ * @property string $website
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
- *
- * @property Collection      $favorites
- * @property Collection      $credits
+ * @property Collection $favorites
+ * @property Collection $credits
  */
 class Movie extends Model implements HasMedia
 {
@@ -73,7 +72,7 @@ class Movie extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'awards'  => 'array',
+        'awards' => 'array',
         'ratings' => 'object',
     ];
 

@@ -14,24 +14,20 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
-/**
- *
- */
 class FavoritesController extends Controller
 {
     public function __construct(
         protected readonly UserRepository $userRepository,
         protected readonly MovieRepository $movieRepository,
-    ) {
-    }
+    ) {}
 
     public function getListOfFavorites(Request $request): JsonResponse
     {
-        $queries             = $request->validate([
-            'q'        => 'nullable|string',
+        $queries = $request->validate([
+            'q' => 'nullable|string',
             'per_page' => 'nullable|integer',
         ]);
-        $perPage             = $request->input('per_page', 10);
+        $perPage = $request->input('per_page', 10);
         $queries['favorite'] = $request->user()->id;
 
         $this->movieRepository->with([
@@ -42,17 +38,16 @@ class FavoritesController extends Controller
             'producers',
         ]);
         $this->movieRepository->filter(new MovieFilter($queries));
-        $this->movieRepository->setTransformer(new MovieTransformer());
+        $this->movieRepository->setTransformer(new MovieTransformer);
         $movies = $this->movieRepository->paginate($perPage);
-        $meta   = array_pop($movies);
+        $meta = array_pop($movies);
 
         return $this->success($movies, metadata: $meta['pagination']);
     }
 
     /**
-     * @param int $movieId
+     * @param  int  $movieId
      *
-     * @return JsonResponse
      * @throws Throwable
      */
     public function addToFavorites($movieId): JsonResponse
@@ -66,9 +61,6 @@ class FavoritesController extends Controller
     }
 
     /**
-     * @param $movieId
-     *
-     * @return JsonResponse
      * @throws Throwable
      */
     public function removeFromFavorites($movieId): JsonResponse

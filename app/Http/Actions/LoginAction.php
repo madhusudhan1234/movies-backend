@@ -14,32 +14,28 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 
-/**
- *
- */
 class LoginAction
 {
     protected string $email;
+
     protected string $password;
+
     protected string $ipAddress;
 
     public function __construct(
         protected readonly UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     public function data(array $data = []): self
     {
-        $this->email     = Arr::get($data, 'email');
-        $this->password  = Arr::get($data, 'password');
+        $this->email = Arr::get($data, 'email');
+        $this->password = Arr::get($data, 'password');
         $this->ipAddress = Arr::get($data, 'ip');
 
         return $this;
     }
 
     /**
-     * @return array
-     *
      * @throws LaravelRepositoryException
      * @throws LoginFailedException
      */
@@ -62,8 +58,8 @@ class LoginAction
 
         // 3. return token
         return [
-            'token'   => $user->createToken('authtoken')->plainTextToken,
-            'profile' => Helper::transform($user, new UserTransformer()),
+            'token' => $user->createToken('authtoken')->plainTextToken,
+            'profile' => Helper::transform($user, new UserTransformer),
         ];
     }
 
@@ -73,7 +69,7 @@ class LoginAction
     protected function ensureIsNotRateLimited(): void
     {
         $maxAttempts = config('auth.max-login-attempt');
-        if ( !RateLimiter::tooManyAttempts($this->throttleKey(), $maxAttempts) ) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), $maxAttempts)) {
             return;
         }
 
@@ -86,11 +82,10 @@ class LoginAction
 
     protected function throttleKey(): string
     {
-        return sprintf("%s|%s", Str::lower($this->email), $this->ipAddress);
+        return sprintf('%s|%s', Str::lower($this->email), $this->ipAddress);
     }
 
     /**
-     * @return User
      * @throws LaravelRepositoryException
      * @throws LoginFailedException
      */
@@ -104,7 +99,7 @@ class LoginAction
         }
 
         // 3. check if password matched
-        if ( !Hash::check($this->password, $user->password) ) {
+        if (! Hash::check($this->password, $user->password)) {
             throw new LoginFailedException('INVALID_CREDENTIALS', 'Invalid Credentials.');
         }
 
@@ -113,7 +108,7 @@ class LoginAction
         // so that they can trigger verification email resend fow
         // if ($user->email_verified_at === null) {
         //     throw new LoginFailedException('EMAIL_NOT_VERIFIED', 'Email not verified.');
-        //}
+        // }
 
         return $user;
     }

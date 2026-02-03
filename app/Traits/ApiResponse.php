@@ -5,9 +5,6 @@ namespace App\Traits;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- *
- */
 trait ApiResponse
 {
     public function success(
@@ -20,15 +17,15 @@ trait ApiResponse
             'success' => true,
         ];
 
-        if ( !is_null($message) ) {
+        if (! is_null($message)) {
             $response['message'] = $message;
         }
 
-        if ( !is_null($data) ) {
+        if (! is_null($data)) {
             $response['data'] = $data;
         }
 
-        if ( !is_null($metadata) ) {
+        if (! is_null($metadata)) {
             $response['metadata'] = $metadata;
         }
 
@@ -43,14 +40,14 @@ trait ApiResponse
     ): JsonResponse {
         $responseData = [
             'success' => false,
-            'message' => $message ?? "Invalid request.",
+            'message' => $message ?? 'Invalid request.',
         ];
 
-        if ( $errorCode ) {
+        if ($errorCode) {
             $responseData['error_code'] = $errorCode;
         }
 
-        if ( $data ) {
+        if ($data) {
             $responseData['data'] = $data;
         }
 

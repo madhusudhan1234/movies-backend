@@ -2,7 +2,6 @@
 
 use App\Enums\DBTables;
 use App\Enums\MovieCreditsRole;
-use App\Models\Director;
 use App\Models\Genre;
 use App\Models\Movie;
 use App\Models\People;
@@ -10,7 +9,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */

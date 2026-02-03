@@ -13,20 +13,15 @@ use Illuminate\Http\Request;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- *
- */
 class VerificationController extends Controller
 {
     public function __construct(
         protected readonly UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      *
-     * @return JsonResponse
      * @throws LaravelRepositoryException
      */
     public function verify(int $id, string $hash): JsonResponse
@@ -34,15 +29,15 @@ class VerificationController extends Controller
         /** @var User $user */
         $user = $this->userRepository->find($id);
 
-        if ( !hash_equals($hash, sha1($user->getEmailForVerification())) ) {
+        if (! hash_equals($hash, sha1($user->getEmailForVerification()))) {
             return $this->error('Invalid verification link.', Response::HTTP_FORBIDDEN);
         }
 
-        if ( $user->hasVerifiedEmail() ) {
+        if ($user->hasVerifiedEmail()) {
             return $this->success(message: 'Email already verified.');
         }
 
-        if ( $user->markEmailAsVerified() ) {
+        if ($user->markEmailAsVerified()) {
             event(new Verified($user));
         }
 
@@ -51,7 +46,7 @@ class VerificationController extends Controller
 
     public function resend(Request $request): JsonResponse
     {
-        if ( $request->user()->hasVerifiedEmail() ) {
+        if ($request->user()->hasVerifiedEmail()) {
             return $this->success(message: 'Email already verified.');
         }
 

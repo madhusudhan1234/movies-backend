@@ -10,7 +10,7 @@ class GenreTransformer extends TransformerAbstract
     public function transform(Genre $genre): array
     {
         return [
-            'name'  => $genre->name,
+            'name' => $genre->name,
             'label' => $genre->label,
         ];
     }

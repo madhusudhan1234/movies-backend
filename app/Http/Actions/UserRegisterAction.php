@@ -9,15 +9,11 @@ use App\Repositories\User\UserRepository;
 use Illuminate\Auth\Events\Registered;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 
-/**
- *
- */
 class UserRegisterAction
 {
     public function __construct(
         protected readonly UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     /**
      * @throws LaravelRepositoryException
@@ -26,16 +22,16 @@ class UserRegisterAction
     {
         /** @var User $user */
         $user = $this->userRepository->create([
-            'name'     => $data['name'],
-            'email'    => $data['email'],
+            'name' => $data['name'],
+            'email' => $data['email'],
             'password' => $data['password'],
         ]);
 
         event(new Registered($user));
 
         return [
-            'token'   => $user->createToken('authtoken')->plainTextToken,
-            'profile' => Helper::transform($user, new UserTransformer()),
+            'token' => $user->createToken('authtoken')->plainTextToken,
+            'profile' => Helper::transform($user, new UserTransformer),
         ];
     }
 }

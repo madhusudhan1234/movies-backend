@@ -18,22 +18,22 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @property int                  $id
- * @property string               $name
- * @property string               $email
+ * @property int $id
+ * @property string $name
+ * @property string $email
  * @property CarbonInterface|null $email_verified_at
- * @property string               $password
- * @property UserRole             $role
- * @property string               $remember_token
- * @property CarbonInterface      $created_at
- * @property CarbonInterface      $updated_at
+ * @property string $password
+ * @property UserRole $role
+ * @property string $remember_token
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
  */
-class User extends Authenticatable implements MustVerifyEmail, \Illuminate\Contracts\Auth\CanResetPassword
+class User extends Authenticatable implements \Illuminate\Contracts\Auth\CanResetPassword, MustVerifyEmail
 {
+    use CanResetPassword;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use CanResetPassword;
 
     /** @use HasFactory<UserFactory> */
     protected $table = DBTables::USERS;
@@ -56,15 +56,15 @@ class User extends Authenticatable implements MustVerifyEmail, \Illuminate\Contr
 
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmail());
+        $this->notify(new VerifyEmail);
     }
 
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'role'              => UserRole::class,
+            'password' => 'hashed',
+            'role' => UserRole::class,
         ];
     }
 }

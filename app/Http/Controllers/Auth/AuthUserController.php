@@ -14,26 +14,21 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 
-/**
- *
- */
 class AuthUserController extends Controller
 {
     public function __construct(
         protected readonly UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     /**
-     * @param RegisterRequest    $request
-     * @param UserRegisterAction $action
+     * @param  RegisterRequest  $request
+     * @param  UserRegisterAction  $action
      *
-     * @return JsonResponse
      * @throws LaravelRepositoryException
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $userProfile = Helper::transform($request->user(), new UserTransformer());
+        $userProfile = Helper::transform($request->user(), new UserTransformer);
 
         return $this->success($userProfile);
     }

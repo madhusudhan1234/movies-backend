@@ -7,16 +7,13 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-/**
- *
- */
 class LoginFailedException extends Exception
 {
     use ApiResponse;
 
     protected string $errorType;
 
-    public function __construct(string $errorType, string $message = "")
+    public function __construct(string $errorType, string $message = '')
     {
         parent::__construct($message);
 

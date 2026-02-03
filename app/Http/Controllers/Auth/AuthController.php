@@ -18,10 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthController extends Controller
 {
     /**
-     * @param RegisterRequest    $request
-     * @param UserRegisterAction $action
-     *
-     * @return JsonResponse
      * @throws LaravelRepositoryException
      */
     public function register(RegisterRequest $request, UserRegisterAction $action): JsonResponse
@@ -38,9 +34,9 @@ class AuthController extends Controller
     {
         try {
             $user = $action->data([
-                'email'    => $request->input('email'),
+                'email' => $request->input('email'),
                 'password' => $request->input('password'),
-                'ip'       => $request->ip(),
+                'ip' => $request->ip(),
             ])->execute();
         } catch (LoginFailedException $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_UNAUTHORIZED, [

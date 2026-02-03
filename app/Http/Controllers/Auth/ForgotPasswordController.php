@@ -13,21 +13,17 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
-/**
- *
- */
 class ForgotPasswordController extends Controller
 {
     public function __construct(
         protected readonly UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     public function sendResetLink(ResetLinkRequest $request): JsonResponse
     {
         $status = Password::sendResetLink($request->only('email'));
 
-        if ( $status === Password::RESET_LINK_SENT ) {
+        if ($status === Password::RESET_LINK_SENT) {
             return $this->success(message: __($status));
         }
 
@@ -40,7 +36,7 @@ class ForgotPasswordController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $this->userRepository->update([
-                    'password'       => $password,
+                    'password' => $password,
                     'remember_token' => Str::random(60),
                 ], $user->id);
 
@@ -48,7 +44,7 @@ class ForgotPasswordController extends Controller
             }
         );
 
-        if ( $status === Password::PASSWORD_RESET ) {
+        if ($status === Password::PASSWORD_RESET) {
             return $this->success(message: __($status));
         }
 
