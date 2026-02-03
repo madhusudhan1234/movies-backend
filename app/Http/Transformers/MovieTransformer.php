@@ -29,6 +29,7 @@ class MovieTransformer extends TransformerAbstract
             'metascore'             => $movie->metascore,
             'imdb_rating'           => $movie->imdb_rating,
             'imdb_votes'            => $movie->imdb_votes,
+            'ratings'               => $movie->ratings,
             'type'                  => $movie->type,
             'dvd'                   => $movie->dvd,
             'box_office_collection' => $movie->box_office_collection,
