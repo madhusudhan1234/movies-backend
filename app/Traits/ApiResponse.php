@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Response as FacadesResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -11,37 +10,50 @@ use Symfony\Component\HttpFoundation\Response;
  */
 trait ApiResponse
 {
-    /**
-     * @param string $message
-     * @param        $data
-     * @param int    $status
-     *
-     * @return JsonResponse
-     */
-    protected function success(
-        string $message,
-        $data = null,
-        int $status = Response::HTTP_OK
+    public function success(
+        ?array $data = null,
+        ?array $metadata = null,
+        ?string $message = null,
+        ?int $httpCode = Response::HTTP_OK
     ): JsonResponse {
-        if ( $data !== null ) {
-            $response = $data;
+        $response = [
+            'success' => true,
+        ];
+
+        if ( !is_null($message) ) {
+            $response['message'] = $message;
         }
 
-        $response['message'] = $message;
+        if ( !is_null($data) ) {
+            $response['data'] = $data;
+        }
 
-        return FacadesResponse::json($response, $status);
+        if ( !is_null($metadata) ) {
+            $response['metadata'] = $metadata;
+        }
+
+        return response()->json($response, $httpCode);
     }
 
-    /**
-     * @param string $message
-     * @param int    $status
-     *
-     * @return JsonResponse
-     */
-    protected function error(
-        string $message,
-        int $status = Response::HTTP_BAD_REQUEST
+    public function error(
+        ?string $message = null,
+        int $httpCode = Response::HTTP_BAD_REQUEST,
+        ?array $data = null,
+        ?string $errorCode = null
     ): JsonResponse {
-        return FacadesResponse::json(['message' => $message], $status);
+        $responseData = [
+            'success' => false,
+            'message' => $message ?? "Invalid request.",
+        ];
+
+        if ( $errorCode ) {
+            $responseData['error_code'] = $errorCode;
+        }
+
+        if ( $data ) {
+            $responseData['data'] = $data;
+        }
+
+        return response()->json($responseData, $httpCode);
     }
 }

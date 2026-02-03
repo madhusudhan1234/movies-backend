@@ -6,18 +6,15 @@ namespace App\Http\Controllers\Movie;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Filters\MovieFilter;
-use App\Http\Requests\StoreMovieRequest;
-use App\Http\Requests\UpdateMovieRequest;
-use App\Http\Resources\MovieResource;
 use App\Http\Transformers\MovieTransformer;
 use App\Repositories\Movie\MovieRepository;
-use App\Services\Movie\MovieServiceInterface;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
-use Symfony\Component\HttpFoundation\Response;
 
+/**
+ *
+ */
 class MovieController extends BaseController
 {
     public function __construct(
@@ -51,16 +48,13 @@ class MovieController extends BaseController
         $movies = $this->movieRepository->paginate($perPage);
         $meta   = array_pop($movies);
 
-        return $this->success('', [
-            'data'       => $movies,
-            'pagination' => $meta['pagination'],
-        ]);
+        return $this->success($movies, metadata: $meta['pagination']);
     }
 
     /**
      * @throws LaravelRepositoryException
      */
-    public function show(int $id): JsonResponse
+    public function show($movieId): JsonResponse
     {
         $this->movieRepository->with([
             'genres',
@@ -70,10 +64,8 @@ class MovieController extends BaseController
             'producers',
         ]);
         $this->movieRepository->setTransformer(new MovieTransformer());
-        $movie = $this->movieRepository->find($id);
+        $movie = $this->movieRepository->find((int) $movieId);
 
-        return $this->success('Movie retrieved successfully.', [
-            'data' => $movie
-        ]);
+        return $this->success($movie);
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+
 /**
  *
  */
@@ -27,10 +28,10 @@ class ForgotPasswordController extends BaseController
         $status = Password::sendResetLink($request->only('email'));
 
         if ( $status === Password::RESET_LINK_SENT ) {
-            return $this->success(__($status));
+            return $this->success(message: __($status));
         }
 
-        return $this->error(__($status));
+        return $this->error(message: __($status));
     }
 
     public function reset(ResetRequest $request): JsonResponse
@@ -48,9 +49,9 @@ class ForgotPasswordController extends BaseController
         );
 
         if ( $status === Password::PASSWORD_RESET ) {
-            return $this->success(__($status));
+            return $this->success(message: __($status));
         }
 
-        return $this->error(__($status));
+        return $this->error(message: __($status));
     }
 }

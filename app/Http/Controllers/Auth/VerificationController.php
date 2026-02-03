@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 use JoBins\LaravelRepository\Exceptions\LaravelRepositoryException;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ *
+ */
 class VerificationController extends BaseController
 {
     public function __construct(
@@ -36,24 +39,24 @@ class VerificationController extends BaseController
         }
 
         if ( $user->hasVerifiedEmail() ) {
-            return $this->success('Email already verified.');
+            return $this->success(message: 'Email already verified.');
         }
 
         if ( $user->markEmailAsVerified() ) {
             event(new Verified($user));
         }
 
-        return $this->success('Email verified successfully.');
+        return $this->success(message: 'Email verified successfully.');
     }
 
     public function resend(Request $request): JsonResponse
     {
         if ( $request->user()->hasVerifiedEmail() ) {
-            return $this->success('Email already verified.');
+            return $this->success(message: 'Email already verified.');
         }
 
         $request->user()->sendEmailVerificationNotification();
 
-        return $this->success('Verification link sent.');
+        return $this->success(message: 'Verification link sent.');
     }
 }

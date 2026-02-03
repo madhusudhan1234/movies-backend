@@ -28,7 +28,7 @@ class AuthController extends BaseController
     {
         $user = $action->execute($request->validated());
 
-        return $this->success('Registered successfully.', $user, Response::HTTP_CREATED);
+        return $this->success($user, httpCode: Response::HTTP_CREATED);
     }
 
     /**
@@ -48,13 +48,13 @@ class AuthController extends BaseController
             ]);
         }
 
-        return $this->success('Logged in successfully.', $user);
+        return $this->success($user, message: 'Logged in successfully.');
     }
 
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
 
-        return $this->success('Logged out successfully.');
+        return $this->success(message: 'Logged out successfully.');
     }
 }
